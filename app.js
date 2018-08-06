@@ -1,18 +1,18 @@
-function Person(firstName, lastName) {
+// Immediately invoked function expressions (IIFE)
 
-    this.firstName = firstName;
-    this.lastName = lastName;
 
-}
+var firstname = 'Anne';
 
-// You can add a prototype to anything that gets created with the Person 
-// class. This is an example of inheritance.
-Person.prototype.greet = function() {
-    console.log(`Hello ${this.firstName}`);
-}
+// The variable with the same name *inside* the function
+// is scoped to only inside that function
+// Wrapping in parens indicates that this is an IIFE
 
-var john = new Person('John', 'Doe');
+(function(lastname) {
 
-console.log(john.firstName);
-john.greet();
+    var firstname = 'John';
+    console.log(firstname);
+    console.log(lastname);
+}('doe'));
 
+
+console.log(firstname);
