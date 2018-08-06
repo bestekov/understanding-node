@@ -1,13 +1,18 @@
-var person = {
-    firstname: 'John',
-    lastname: 'Doe',
-    greet: function() {
-        console.log(`Hello ${this.firstname} ${this.lastname}`);
-    }
+function Person(firstName, lastName) {
+
+    this.firstName = firstName;
+    this.lastName = lastName;
+
 }
 
-// you can access properties with a name
-person.greet();
+// You can add a prototype to anything that gets created with the Person 
+// class. This is an example of inheritance.
+Person.prototype.greet = function() {
+    console.log(`Hello ${this.firstName}`);
+}
 
-// You can name object properties without a dot
-console.log(person[ 'firstname' ]);
+var john = new Person('John', 'Doe');
+
+console.log(john.firstName);
+john.greet();
+
