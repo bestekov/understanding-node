@@ -1,6 +1,17 @@
-// Modules vs. Module.exports
+// Building a simple Event Emitter
 
-var greet = require('./greet');
+var Emitter = require('./emitter');
+
+var emtr = new Emitter();
+
+emtr.on('greet', function() {
+    console.log('somewhere, someone said hello.');
+});
+
+emtr.on('greet', function() {
+    console.log('A greeting occurred!');
+});
 
 
-var greet2 = require('./greet2');
+console.log('Hello!');
+emtr.emit('greet');
