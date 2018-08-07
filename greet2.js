@@ -1,5 +1,7 @@
-// Example of adding a method in the export
+// here we change the object to a function
+exports.greet = function() {
+    console.log('Hello');
+}
 
-module.exports.greet = function() {
-    console.log('Hello world!');
-};
+console.log(exports);
+console.log(module.exports);
