@@ -1,41 +1,27 @@
-// Using the built-in node event emitter
+// Inheriting from event emitter
 
-// Only had to change one line of code to use the built-in
-// event emitter instead. It works the same way as the custom, one except
-// that it has a lot more features.
-var Emitter = require('events');
+var EventEmitter = require('events');
+var util = require('util');
 
-var emtr = new Emitter();
+function Greetr() {
+    this.greeting = 'Hello world!';
+}
 
-// However... the emitter relies on magic strings, which is bad
-/*
-emtr.on('greet', function() {
-    console.log('somewhere, someone said hello.');
+// anything that inherits from Greetr should also get the prototypes from 
+/// EventEmitter. So we can use the on and emit methods!
+util.inherits(Greetr, EventEmitter);
+
+Greetr.prototype.greet = function( data ) {
+    console.log(this.greeting + ': ' + data );
+    // It can do this.emit because it inherited from EvenEmitter
+    this.emit( 'greet', data );
+}
+
+
+var greeter1 = new Greetr();
+
+greeter1.on('greet', function(data) {
+    console.log('Someone greeted!: ' + data );
 });
 
-emtr.on('greet', function() {
-    console.log('A greeting occurred!');
-});
-
-
-console.log('Hello!');
-emtr.emit('greet');
-
-*/
-
-// instead we can try to avoid magic strings
-var eventConfig = require('./config.js').events
-
-// We can store the string in one place and refernce it
-// elsewhere so that the tool can help maintain consistency
-emtr.on(eventConfig.GREET, function() {
-    console.log('somewhere, someone said hello.');
-});
-
-emtr.on(eventConfig.GREET, function() {
-    console.log('A greeting occurred!');
-});
-
-
-console.log('Hello!');
-emtr.emit('greet');
+greeter1.greet('Test');
