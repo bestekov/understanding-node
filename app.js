@@ -1,29 +1,17 @@
-// Inheriting from event emitter pt 3 - use ES6
-'use strict';
+// Understanding buffers
 
-var EventEmitter = require('events');
+var buf = new Buffer('Hello','utf8');
 
+console.log(buf);
+console.log(buf.toString());
+console.log(buf.toJSON());
+console.log(buf[2]);
 
-// The ES6 syntax is extends instead of needing utils inherits
-// This is just syntactic sugar that makes it easier to type
-// but under the hood it is working exactly how it worked before
-class Greetr extends EventEmitter{
-    constructor() {
-        super();
-        this.greeting = 'Hello world!';
-    }
+buf.write('wo');
 
-    greet( data ) {
-        console.log(this.greeting + ': ' + data );
-        // It can do this.emit because it inherited from EvenEmitter
-        this.emit( 'greet', data );
-    }
-}
+// in this case, the 'wo' overwrites 'he' because the buffer
+// was setup to take 5 characters
+console.log(buf.toString());
 
-var greeter1 = new Greetr();
-
-greeter1.on('greet', function(data) {
-    console.log('Someone greeted!: ' + data );
-});
-
-greeter1.greet('Test');
+// Most of the time you don't deal directly witht he buffer
+// instead you will often get them back from other other things
