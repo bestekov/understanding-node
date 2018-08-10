@@ -1,17 +1,24 @@
-// Understanding buffers
+// Working with files
 
-var buf = new Buffer('Hello','utf8');
+var fs = require('fs');
 
-console.log(buf);
-console.log(buf.toString());
-console.log(buf.toJSON());
-console.log(buf[2]);
 
-buf.write('wo');
+// readFileSync means *synchronous* which you would only want
+// if you were doing something like reading a requird config
+// otherwise you might block your execution
+var greet = fs.readFileSync(
+    //__dirname + '/greet.txt', //can use __dirname special var or ./
+    './greet.txt',
+    'utf8',);
 
-// in this case, the 'wo' overwrites 'he' because the buffer
-// was setup to take 5 characters
-console.log(buf.toString());
+console.log(greet);
 
-// Most of the time you don't deal directly witht he buffer
-// instead you will often get them back from other other things
+// instead we can use readFile, that takes a *callback*
+var greet2 = fs.readFile('./greet.txt','utf8',
+    function(err, data) {
+        console.log(data);
+});
+
+// having this *after* the call proves that the greet2 function was
+// async, because done fires first!
+console.log('Done!');
