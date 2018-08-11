@@ -1,14 +1,29 @@
-// Web server - serving a separate file
+// Web server - routing
 
 var http = require('http');
 var fs = require('fs');
 
 http.createServer(function(req, res) {
 
-    res.writeHead(200, { 'Content-Type': 'text/html' });
-    
-    // instead of readFile, we can create a readable stream and pipe to the res
-    fs.createReadStream( __dirname + '/index.htm','utf8').pipe(res);
+    // routing gets really complicated!!
+    if( req.url === '/api' ){
+        res.writeHead(200, { 'Content-Type': 'text/json' });
+        
+        var obj = {
+            firstname: 'Jon',
+            lastname: 'Snow',
+        };
+
+        res.end(JSON.stringify(obj));
+    } else if( req.url === '/' ) {
+        fs.createReadStream(__dirname + '/index.htm').pipe(res);
+    } else {
+        // need to handle the case of an unhandled route
+        var message = 'No page found';
+        res.writeHead(404);
+        res.end(message);
+    }
+
 
 }).listen(1337, '127.0.0.1');
 
