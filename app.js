@@ -1,29 +1,17 @@
-// Working with streams from files
+// Starting a hello world webserver
 
-var fs = require('fs');
+var http = require('http');
 
-// the 'highWaterMark' option allows you to set the buffer smaller
-// that the OS default. the small buffer will fire several chunks
-var readable = fs.createReadStream(
-    './greet.txt', 
-    { encoding:'utf8', highWaterMark: 2*1024 });
+http.createServer(function(req, res) {
 
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    
+    // .end is a simple way to send a response to the browser
+    res.end('<h1>Hello world!</h1>\n'
+                + '<p>This is listening to the world!</p>\n');
 
-var writeable = fs.createWriteStream(
-    './greetcopy.txt'
-);
+    // .listen specifies the port and IP
+}).listen(1337, '127.0.0.1');
 
-
-// As the text goes into the buffer, if the full contents fits
-// you will get all the data. But if it is bigger than the buffer
-// every time it fills the buffer, it will emit a 'data' event
-// a "chunk" is a set of data from the buffer
-readable.on('data', function(chunk) {
-    //console.log(chunk)
-    console.log(chunk);
-
-    // by having a callback that writes to the file, we can stream the contents
-    // to the writable file with each chunk.
-    writeable.write(chunk);
-});
-
+// Then all you have to do is visit localhost:1337 and that creates an event
+// listener that listens for a 200 and then sends a response
