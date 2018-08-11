@@ -1,6 +1,7 @@
 
 *.log
 .nyc_output
+.vscode
 .test-results
 .test-results.json
 coverage
