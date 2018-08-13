@@ -1,4 +1,4 @@
-// Using Express - Routing, static files, and middleware
+// Using Express - Adding a basic template engine
 
 var express = require('express');
 
@@ -10,6 +10,11 @@ var port = process.env.PORT || 3000;
 // this middleware ways anytime "assets" appears, serve the static file
 app.use('/assets', express.static(__dirname + '/public'));
 
+// Plug in the template engine. By default this looks for a folder called 'views'
+app.set('view engine', 'ejs' );
+
+
+
 // you can add custom middleware. It adds a "next" param
 app.use('/', function(req, res, next) {
     console.log('Request URL: '+ req.url);
@@ -20,15 +25,15 @@ app.use('/', function(req, res, next) {
 
 // By referencing the assets, the css is loaded and the font gets loaded
 app.get('/', function(req, res) {
-    res.send(`<html><head><link href=assets/style.css 
-    type=text/css rel=StyleSheet 
-    /></head><body><h1>Hello World!!</h1></body></html>`);
+    // no longer have to send the contents, instead just say "render"
+    // and express will look for the index in the view engine
+    res.render('index' );
 
 });
 
 app.get('/person/:id', function(req, res) {
-    res.send(`<html><head></head><body><h1>Hello World, `
-        + `${req.params.id}!</h1></body></html>`);
+    // Can now simplify the code for rendering passing a dynamic value
+    res.render('person', { ID: req.params.id });
 });
 
 app.get('/api', function(req, res) {
